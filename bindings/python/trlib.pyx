@@ -181,7 +181,8 @@ def tri_min(long [::1] irblk, double [::1] diag, double [::1] offdiag,
 def trlib_solve(hess, grad, radius, invM = lambda x: x, TR=None, reentry=False,
         verbose=0, ctl_invariant=0, convexify=1, earlyterm=1,
         double tol_rel_i = -2.0, double tol_abs_i = 0.0,
-        double tol_rel_b = -3.0, double tol_abs_b = 0.0
+        double tol_rel_b = -3.0, double tol_abs_b = 0.0,
+        long itmax=0,
         ):
     r"""
     Solves trust-region subproblem
@@ -270,7 +271,8 @@ def trlib_solve(hess, grad, radius, invM = lambda x: x, TR=None, reentry=False,
     cdef long action = 0
     cdef long it = 0
     cdef long ityp = 0
-    cdef long itmax = 2*grad.shape[0]
+    if itmax == 0:
+        itmax = 2*grad.shape[0]
     cdef long init
     cdef long iwork_size
     cdef long fwork_size
